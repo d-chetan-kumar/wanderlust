@@ -1,0 +1,131 @@
+<% layout("layouts/boilerplate") %>
+
+<style>
+  .form-container {
+    max-width: 420px;
+    margin: 50px auto;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .form-control {
+    border: 1px solid #ccc;
+    border-radius: 0;
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  .btn-custom {
+    background-color: #111;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 0;
+    font-weight: 500;
+  }
+
+  .btn-custom:hover {
+    background-color: #000;
+  }
+
+  .image-preview {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .image-preview img {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 8px;
+  }
+</style>
+
+<div class="form-container">
+  <h3 class="mb-4 fw-semibold">Edit your Listing</h3>
+
+  <!-- Show current image if present -->
+  <% if (listing.image && listing.image.url) { %>
+    <div class="image-preview">
+      <img src="<%= listing.image.url %>" alt="Current Image">
+    </div>
+  <% } %>
+
+  <form method="POST" action="/listings/<%= listing._id %>?_method=PUT"
+     novalidate
+     class="needs-validation">
+    <div class="mb-3">
+      <input
+        type="text"
+        name="listing[title]"
+        class="form-control"
+        value="<%= listing.title %>"
+        placeholder="Title"
+        required
+      >
+       <div class="valid-feedback">Title looks good!</div>
+    </div>
+
+    <div class="mb-3">
+      <textarea
+        name="listing[description]"
+        class="form-control"
+        rows="3"
+        placeholder="Description"
+        required
+      ><%= listing.description %> </textarea>
+      <div class="invalid-feedback">Please enter a short description</div>
+    </div>
+
+    <div class="mb-3">
+      <input
+        type="text"
+        name="listing[image][url]"
+        class="form-control"
+        value="<%= listing.image ? listing.image.url : '' %>"
+        placeholder="Image URL"
+        required
+      >
+      <div class="invalid-feedback">Please enter a valid link for image</div>
+    </div>
+
+    <div class="mb-3">
+      <input
+        type="number"
+        name="listing[price]"
+        class="form-control"
+        value="<%= listing.price %>"
+        placeholder="Price"
+        required
+      >
+      <div class="invalid-feedback">Please should be valid</div>
+    </div>
+
+    <div class="mb-3">
+      <input
+        type="text"
+        name="listing[country]"
+        class="form-control"
+        value="<%= listing.country %>"
+        placeholder="Country"
+        required
+      >
+      <div class="invalid-feedback">Country name should be valid</div>
+    </div>
+
+    <div class="mb-3">
+      <input
+        type="text"
+        name="listing[location]"
+        class="form-control"
+        value="<%= listing.location %>"
+        placeholder="Location"
+        required
+      >
+      <div class="invalid-feedback">Location should be valid</div>
+    </div>
+
+    <div class="d-grid">
+      <button class="btn btn-custom">Update Listing</button>
+    </div>
+  </form>
+</div>
+
